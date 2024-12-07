@@ -1,8 +1,3 @@
-import { Box, Button, Typography } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import CustomButton from "../general/button/CustomButton";
-
 // constants
 import { randomIntensity } from "../../utility/constants";
 
@@ -12,8 +7,22 @@ import { ButtonRef, Diamension, Range } from "../../utility/types";
 // functions
 import { getRandomExclusive, getRandomInclusive, splitRangeIntoArray } from "../../utility/functions";
 
+import { Box, Button, Divider, SwipeableDrawer, TextField, Typography } from "@mui/material";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import CustomButton from "../general/button/CustomButton";
+import Loader from "../general/loader/Loader";
+import MenuIconButton from "../general/menuIconButton/MenuIconButton";
+import TextFieldPopup from "../general/popupMenu/textFieldPopup/TextFieldPopup";
+import { AppContext } from "../../context/ContextProvider";
+import Popup from "../general/popupMenu/Popup";
+
+
+
 
 const Question = () => {
+
+  const {contextState, setContextState} = useContext(AppContext)!;
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -75,7 +84,8 @@ const Question = () => {
       setHeightRangeArray(heightRange);
         
       setIsPositioned(true);
-        // guzara chalau
+        
+        // 0.5s later false, so transition and proper button placement done
         setTimeout(() => {
           setIsLoading(false);
         }, 500)
@@ -123,6 +133,9 @@ const Question = () => {
 
   return (
     <>
+      {isLoading && <Loader />}
+      <MenuIconButton />
+      <Popup />
       <Box
         className="container"
         sx={{
@@ -150,7 +163,7 @@ const Question = () => {
             }}
             className="header_text"
           >
-            Annu kiya tum pagal ho?
+            {contextState.question}
           </Typography>
         </Box>
 
@@ -175,7 +188,7 @@ const Question = () => {
             }}
             type="yesbtn"
           >
-            Yes
+            {contextState.yesBtnText}
           </CustomButton>
 
           <CustomButton
@@ -188,7 +201,7 @@ const Question = () => {
             }}
             type="nobtn"
           >
-            No
+            {contextState.noBtnText}
           </CustomButton>
 
 
@@ -199,3 +212,5 @@ const Question = () => {
 };
 
 export default Question;
+
+

@@ -1,3 +1,5 @@
+import React from "react";
+
 export interface Diamension {
     width: number,
     height: number
@@ -21,4 +23,22 @@ export interface CustomButtonProps {
     position: Position,
     children: React.ReactNode,
     type: "yesbtn" | "nobtn"
+}
+
+export interface TextFieldProps{
+    text: string,    
+}
+
+export type ButtonLabel = "question" | "yesBtnText" | "noBtnText" | "answer";
+export interface QuestionAnswerType{
+    question: string,
+    yesBtnText: string,
+    noBtnText: string,
+    answer: string,
+    popupState: boolean
+}
+
+export interface ContextType{
+    contextState: QuestionAnswerType,
+    setContextState: React.Dispatch<React.SetStateAction<QuestionAnswerType>>
 }
