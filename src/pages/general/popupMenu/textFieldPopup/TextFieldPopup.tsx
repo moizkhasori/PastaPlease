@@ -1,11 +1,12 @@
 import { Box, TextField, Typography } from '@mui/material'
 import React, { useContext } from 'react'
 import { ButtonLabel, TextFieldProps } from '../../../../utility/types'
-import { AppContext } from '../../../../context/ContextProvider';
+import { QuestionContext } from '../../../../context/QuestionContextProvider';
 
 const TextFieldPopup = ({title, btnLabel}: {title:string, btnLabel: ButtonLabel}) => {
 
-  const {contextState, setContextState} = useContext(AppContext)!;
+  const {questionContextState, setQuestionContextState} = useContext(QuestionContext)!;
+  
 
 
   return (
@@ -34,7 +35,7 @@ const TextFieldPopup = ({title, btnLabel}: {title:string, btnLabel: ButtonLabel}
         </Box>
 
         <TextField
-        value={contextState[btnLabel]}
+        value={questionContextState[btnLabel]}
         sx={{
           width:"100%",
           "& .MuiOutlinedInput-root": {
@@ -43,8 +44,8 @@ const TextFieldPopup = ({title, btnLabel}: {title:string, btnLabel: ButtonLabel}
         }}
         variant="outlined"
         onChange={(e) => {
-          setContextState({
-            ...contextState,
+          setQuestionContextState({
+            ...questionContextState,
             [btnLabel]: e.target.value
           })
         }}

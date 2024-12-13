@@ -10,19 +10,21 @@ import { getRandomExclusive, getRandomInclusive, splitRangeIntoArray } from "../
 import { Box, Button, Divider, SwipeableDrawer, TextField, Typography } from "@mui/material";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import CustomButton from "../general/button/CustomButton";
+import CustomButton from "../general/customYesNoButton/CustomButton";
 import Loader from "../general/loader/Loader";
 import MenuIconButton from "../general/menuIconButton/MenuIconButton";
 import TextFieldPopup from "../general/popupMenu/textFieldPopup/TextFieldPopup";
-import { AppContext } from "../../context/ContextProvider";
 import Popup from "../general/popupMenu/Popup";
+import { QuestionContext } from "../../context/QuestionContextProvider";
+import { PopupContext } from "../../context/PopupContextProvider";
 
 
 
 
 const Question = () => {
 
-  const {contextState, setContextState} = useContext(AppContext)!;
+  const {questionContextState, setQuestionContextState} = useContext(QuestionContext)!;
+  const {popupContextState, setPopupContextState} = useContext(PopupContext)!;
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -51,7 +53,7 @@ const Question = () => {
 
 
   useEffect(() => {
-    const updatePositionsAndRange = () => {
+    const updatePositionsAndRange = () => {      
 
         const windowWidth = window.innerWidth;
         const windowHeight = window.innerHeight;
@@ -95,12 +97,8 @@ const Question = () => {
 
     updatePositionsAndRange()
     
-    window.addEventListener("resize", updatePositionsAndRange)
-
-    return () => {
-      window.removeEventListener("resize", updatePositionsAndRange)
-    }
-  }, [])
+    
+  }, [popupContextState.isOpened])
 
 
 
@@ -163,7 +161,7 @@ const Question = () => {
             }}
             className="header_text"
           >
-            {contextState.question}
+            {questionContextState.question}
           </Typography>
         </Box>
 
@@ -188,7 +186,7 @@ const Question = () => {
             }}
             type="yesbtn"
           >
-            {contextState.yesBtnText}
+            {questionContextState.yesBtnText}
           </CustomButton>
 
           <CustomButton
@@ -201,7 +199,7 @@ const Question = () => {
             }}
             type="nobtn"
           >
-            {contextState.noBtnText}
+            {questionContextState.noBtnText}
           </CustomButton>
 
 

@@ -30,12 +30,31 @@ export interface TextFieldProps{
 }
 
 export type ButtonLabel = "question" | "yesBtnText" | "noBtnText" | "answer";
+
 export interface QuestionAnswerType{
     question: string,
     yesBtnText: string,
     noBtnText: string,
     answer: string,
-    popupState: boolean
+    themeNo: number
+}
+
+export interface PopupType{
+    isOpened: boolean
+}
+
+export interface Themetype extends QuestionAnswerType{
+    // add bg color etc
+}
+
+export interface QuestionContextType{
+    questionContextState: QuestionAnswerType,
+    setQuestionContextState: React.Dispatch<React.SetStateAction<QuestionAnswerType>>
+}
+
+export interface PopupContextType{
+    popupContextState: PopupType,
+    setPopupContextState: React.Dispatch<React.SetStateAction<PopupType>>
 }
 
 export interface ContextType{

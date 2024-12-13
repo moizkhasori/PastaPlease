@@ -1,7 +1,12 @@
-import { Typography } from '@mui/material'
-import React from 'react'
+import { Box, IconButton, Typography } from '@mui/material'
+import React, { useContext } from 'react'
+import BackIconButton from '../general/backIconButton/BackIconButton'
+import { QuestionContext } from '../../context/QuestionContextProvider'
 
 const Answer = () => {
+
+  const {questionContextState, setQuestionContextState} = useContext(QuestionContext)!;
+
   return (
     <div
     style={{
@@ -12,16 +17,20 @@ const Answer = () => {
         justifyContent:"center",
         alignItems:"center"
     }}
-    >
+    > 
+
+      <BackIconButton />
 
         <Typography variant='h2' sx={{
              fontWeight:"bold",
              textAlign:"center"
         }}>
-            <span style={{color:"#593d3b"}}>Ouchh! - </span>
-             then when? 🤪</Typography>
+            {questionContextState.answer}
+            </Typography>
     </div>
   )
 }
 
 export default Answer
+
+

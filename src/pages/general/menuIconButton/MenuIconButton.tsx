@@ -1,15 +1,15 @@
 import { IconButton } from '@mui/material'
 import WidgetsIcon from '@mui/icons-material/Widgets';
 import React, { useContext } from 'react'
-import { AppContext } from '../../../context/ContextProvider';
+import { PopupContext } from '../../../context/PopupContextProvider';
 
 const MenuIconButton = () => {
-  const {contextState, setContextState} = useContext(AppContext)!;
+  const {popupContextState, setPopupContextState} = useContext(PopupContext)!;
+   
 
   const handleOpenPopup = () => {
-    setContextState({
-      ...contextState,
-      popupState: true
+    setPopupContextState({
+      isOpened: true
     })
   }
 
