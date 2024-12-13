@@ -13,10 +13,9 @@ import { useNavigate } from "react-router-dom";
 import CustomButton from "../general/customYesNoButton/CustomButton";
 import Loader from "../general/loader/Loader";
 import MenuIconButton from "../general/menuIconButton/MenuIconButton";
-import TextFieldPopup from "../general/popupMenu/textFieldPopup/TextFieldPopup";
 import Popup from "../general/popupMenu/Popup";
 import { QuestionContext } from "../../context/QuestionContextProvider";
-import { PopupContext } from "../../context/PopupContextProvider";
+import { ThemeContext } from "../../context/ThemeContextProvider";
 
 
 
@@ -24,7 +23,7 @@ import { PopupContext } from "../../context/PopupContextProvider";
 const Question = () => {
 
   const {questionContextState, setQuestionContextState} = useContext(QuestionContext)!;
-  const {popupContextState, setPopupContextState} = useContext(PopupContext)!;
+  const {themeContextState, setThemeContextState} = useContext(ThemeContext)!;
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -98,7 +97,7 @@ const Question = () => {
     updatePositionsAndRange()
     
     
-  }, [popupContextState.isOpened])
+  }, [])
 
 
 
@@ -132,6 +131,7 @@ const Question = () => {
   return (
     <>
       {isLoading && <Loader />}
+
       <MenuIconButton />
       <Popup />
       <Box
@@ -139,7 +139,7 @@ const Question = () => {
         sx={{
           width: "100%",
           height: "100vh",
-          bgcolor: "#ede0d4",
+          bgcolor: themeContextState.backgroundColor,
           display: "flex",
           gap: 3,
           flexDirection: "column",

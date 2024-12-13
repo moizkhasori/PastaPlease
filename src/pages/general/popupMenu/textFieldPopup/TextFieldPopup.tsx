@@ -39,8 +39,16 @@ const TextFieldPopup = ({title, btnLabel}: {title:string, btnLabel: ButtonLabel}
         sx={{
           width:"100%",
           "& .MuiOutlinedInput-root": {
-          borderRadius: "10px", // Custom border radius
+          borderRadius: "10px",
+          backgroundColor: 'white', // Field background color
+            '&:hover fieldset': {
+              borderColor: 'gray', // Border color on hover
+            },
+            '&.Mui-focused fieldset': {
+              borderColor: '#ff5733', // Custom focus color
+            },
         },
+        
         }}
         variant="outlined"
         onChange={(e) => {

@@ -8,11 +8,12 @@ import {
 // Components
 import Question from "./pages/question/Question";
 import Answer from "./pages/answer/Answer";
+import ForceRender from "./ForceRender";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
-      <Route path="/" element={<Question />} />
+      <Route path="/" element={<ForceRender />} />
       <Route path="/yes" element={<Answer />} />
     </Route>
   )

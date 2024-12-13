@@ -9,7 +9,9 @@ const MenuIconButton = () => {
 
   const handleOpenPopup = () => {
     setPopupContextState({
-      isOpened: true
+      ...popupContextState,
+      isOpened: true,
+      
     })
   }
 

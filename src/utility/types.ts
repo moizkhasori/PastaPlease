@@ -40,7 +40,15 @@ export interface QuestionAnswerType{
 }
 
 export interface PopupType{
-    isOpened: boolean
+    isOpened: boolean,
+    renderKey: number
+}
+
+export interface ThemeType{
+    backgroundColor: string,
+    questionAnswerColor:string,
+    buttonColor:string,
+    buttonHoverColor: string,
 }
 
 export interface Themetype extends QuestionAnswerType{
@@ -60,4 +68,9 @@ export interface PopupContextType{
 export interface ContextType{
     contextState: QuestionAnswerType,
     setContextState: React.Dispatch<React.SetStateAction<QuestionAnswerType>>
+}
+
+export interface ThemeContextType{
+    themeContextState: ThemeType,
+    setThemeContextState: React.Dispatch<React.SetStateAction<ThemeType>>
 }

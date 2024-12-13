@@ -16,3 +16,10 @@ export const themes: Themetype[] = [
         themeNo: 1
     }
 ]
+
+const obj = {
+    backgroundColor: "#ede0d4",
+    questionAnswerColor: "#111",
+    buttonColor:"#9c6644",
+    buttonHoverColor: "#7f5539",
+}

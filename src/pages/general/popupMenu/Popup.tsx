@@ -5,17 +5,19 @@ import { PopupContext } from '../../../context/PopupContextProvider';
 import { themes } from '../../../themes/themes';
 import { QuestionContext } from '../../../context/QuestionContextProvider';
 import RestoreIcon from '@mui/icons-material/Restore';
+import { ThemeContext } from '../../../context/ThemeContextProvider';
 
 const Popup = () => {
     
     const {popupContextState, setPopupContextState} = useContext(PopupContext)!;
     const {questionContextState, setQuestionContextState} = useContext(QuestionContext)!;
+      const {themeContextState, setThemeContextState} = useContext(ThemeContext)!;
+    
 
     
 
     const handleUpdateQuestionContextState = (themeNo: number) => {
       setQuestionContextState({
-        
             question: themes[themeNo].question,
             answer: themes[themeNo].answer,
             yesBtnText: themes[themeNo].yesBtnText,
@@ -25,9 +27,19 @@ const Popup = () => {
     }
 
     const updatePopupState = (state:boolean) => (
+    
+      state == false ? (
+        setPopupContextState((prevState) => ({
+          renderKey: prevState.renderKey + 1,
+          isOpened: state,
+      }))
+      
+      ) : (
         setPopupContextState({
-            isOpened: state
-        })
+          ...popupContextState,
+          isOpened: state
+      })
+      )     
     )
   
     return(
@@ -41,12 +53,13 @@ const Popup = () => {
           borderTopLeftRadius: 16, // Adjust radius here
           borderTopRightRadius: 16, // Adjust radius here
           overflow: "hidden",      // Ensures no content spills out
+          bgcolor:themeContextState.backgroundColor
         },
       }}
       >
   
       <Box
-        sx={{ width: 'auto', height:"80vh", px:"5rem", py:"3rem", display:"flex", flexDirection:"column", gap:"2rem" }}
+        sx={{ width: 'auto', height:"auto", px:"5rem", py:"3rem", display:"flex", flexDirection:"column", gap:"2rem" }}
         role="presentation"
         // onClick={toggleDrawer(anchor, false)}
         // onKeyDown={toggleDrawer(anchor, false)}
@@ -83,8 +96,14 @@ const Popup = () => {
           sx={{
             px:"7rem",
             py: "2rem",
-            borderRadius:"50px"
+            borderRadius:"50px",
+            backgroundColor: themeContextState.buttonColor, // Custom color
+            color: "#FFFFFF", // Text color
+            "&:hover": {
+            backgroundColor: themeContextState.buttonHoverColor, // Hover color
+          },
           }}
+          
           onClick={() => {updatePopupState(false)}}
           variant="contained"
           >CLOSE
@@ -94,7 +113,12 @@ const Popup = () => {
           sx={{
             px:"7rem",
             py: "2rem",
-            borderRadius:"50px"
+            borderRadius:"50px",
+            backgroundColor: themeContextState.buttonColor, // Custom color
+            color: "#FFFFFF", // Text color
+            "&:hover": {
+            backgroundColor: themeContextState.buttonHoverColor, // Hover color
+            }
           }}
           onClick={() => {handleUpdateQuestionContextState(questionContextState.themeNo)}}
           variant="contained"
@@ -107,14 +131,14 @@ const Popup = () => {
         </Box>
 
         {/* theme */}
-        <Box>
+        {/* <Box>
           {themes.map((theme, index) => (
             <Button
             onClick={() => {handleUpdateQuestionContextState(index)}}
             variant='contained'
             >{theme.question}</Button>
           ))}
-        </Box>
+        </Box> */}
     
   
       </Box>

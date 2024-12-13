@@ -6,6 +6,7 @@ import { CssBaseline } from "@mui/material";
 import App from "./App.tsx";
 import { PopupContextProvider } from "./context/PopupContextProvider.tsx";
 import { QuestionContextProvider } from "./context/QuestionContextProvider.tsx";
+import { ThemeContextProvider } from "./context/ThemeContextProvider.tsx";
 
 
 
@@ -14,7 +15,9 @@ createRoot(document.getElementById("root")!).render(
     <CssBaseline>
       <QuestionContextProvider>
         <PopupContextProvider>
+          <ThemeContextProvider>
           <App />
+          </ThemeContextProvider>
         </PopupContextProvider>
         </QuestionContextProvider>
     </CssBaseline>
