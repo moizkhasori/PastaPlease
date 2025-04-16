@@ -6,14 +6,13 @@ import {
 } from "react-router-dom";
 
 // Components
-import Question from "./pages/question/Question";
+import QuestionPage from "./pages/question/QuestionPage";
 import Answer from "./pages/answer/Answer";
-import ForceRender from "./ForceRender";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
-      <Route path="/" element={<ForceRender />} />
+      <Route path="/" element={<QuestionPage />} />
       <Route path="/yes" element={<Answer />} />
     </Route>
   )

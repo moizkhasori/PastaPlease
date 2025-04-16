@@ -1,13 +1,16 @@
 import { Box, TextField, Typography } from '@mui/material'
-import React, { useContext } from 'react'
-import { ButtonLabel, TextFieldProps } from '../../../../utility/types'
-import { QuestionContext } from '../../../../context/QuestionContextProvider';
+import React from 'react'
+import { ButtonLabel, PopupTempStateValues } from '../../../../utility/interfaces'
 
-const TextFieldPopup = ({title, btnLabel}: {title:string, btnLabel: ButtonLabel}) => {
+interface ChildProps{
+  popupTempState: PopupTempStateValues,
+  setPopupTempState: React.Dispatch<React.SetStateAction<PopupTempStateValues>>,
+  title: string,
+  buttonLabel: ButtonLabel,
+  length: number
+}
 
-  const {questionContextState, setQuestionContextState} = useContext(QuestionContext)!;
-  
-
+const TextFieldPopup: React.FC<ChildProps> = ({popupTempState, setPopupTempState, title, buttonLabel, length}) => {  
 
   return (
     <Box
@@ -31,11 +34,11 @@ const TextFieldPopup = ({title, btnLabel}: {title:string, btnLabel: ButtonLabel}
                 {title}
             </Typography>
 
-            <Typography>30/20</Typography>
+            <Typography>{popupTempState[buttonLabel].length}/{length}</Typography>
         </Box>
 
         <TextField
-        value={questionContextState[btnLabel]}
+        value={popupTempState[buttonLabel]}
         sx={{
           width:"100%",
           "& .MuiOutlinedInput-root": {
@@ -52,10 +55,12 @@ const TextFieldPopup = ({title, btnLabel}: {title:string, btnLabel: ButtonLabel}
         }}
         variant="outlined"
         onChange={(e) => {
-          setQuestionContextState({
-            ...questionContextState,
-            [btnLabel]: e.target.value
-          })
+          if(e.target.value.length <= length){
+            setPopupTempState((prev) => ({
+              ...prev,
+              [buttonLabel]: e.target.value
+            }))
+          }
         }}
         />
     </Box>

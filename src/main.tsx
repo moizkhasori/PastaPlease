@@ -5,21 +5,18 @@ import { CssBaseline } from "@mui/material";
 // components
 import App from "./App.tsx";
 import { PopupContextProvider } from "./context/PopupContextProvider.tsx";
-import { QuestionContextProvider } from "./context/QuestionContextProvider.tsx";
-import { ThemeContextProvider } from "./context/ThemeContextProvider.tsx";
+import { PastaContextProvider } from "./context/PastaContextProvider.tsx";
 
 
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <CssBaseline>
-      <QuestionContextProvider>
-        <PopupContextProvider>
-          <ThemeContextProvider>
+        <PastaContextProvider>
+          <PopupContextProvider>
           <App />
-          </ThemeContextProvider>
-        </PopupContextProvider>
-        </QuestionContextProvider>
+          </PopupContextProvider>
+        </PastaContextProvider>
     </CssBaseline>
   </StrictMode>
 );

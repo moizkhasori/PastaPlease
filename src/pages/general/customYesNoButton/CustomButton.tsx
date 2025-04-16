@@ -1,12 +1,12 @@
 import React, { forwardRef, useContext } from 'react'
 import { CustomButtonProps } from '../../../utility/types'
 import { Button } from '@mui/material'
-import { ThemeContext } from '../../../context/ThemeContextProvider';
+import { PastaContext } from '../../../context/PastaContextProvider';
 
 const CustomButton = forwardRef<HTMLButtonElement, CustomButtonProps>(
   ({ onClick, isPositioned = false, position = { top: 0, left: 0 }, children, type },ref) => {
 
-      const {themeContextState, setThemeContextState} = useContext(ThemeContext)!;
+      const {pastaContextState, setPastaContextState} = useContext(PastaContext)!;
     
 
     return (
@@ -15,10 +15,10 @@ const CustomButton = forwardRef<HTMLButtonElement, CustomButtonProps>(
           position: isPositioned ? "absolute" : "relative",
           top: isPositioned ? `${position.top}px` : 0,
           left: isPositioned ? `${position.left}px` : 0,
-          backgroundColor: themeContextState.buttonColor, // Custom color
+          backgroundColor: pastaContextState.themeButtonColor, // Custom color
           color: "#FFFFFF", // Text color
           "&:hover": {
-            backgroundColor: themeContextState.buttonHoverColor, // Hover color
+            backgroundColor: pastaContextState.themeButtonHoverColor, // Hover color
           },
           fontWeight: "500",
           fontSize: "1.2rem",

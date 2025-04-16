@@ -7,7 +7,6 @@ export const PopupContextProvider: React.FC<{children: React.ReactNode}> = ({chi
 
     const [popupContextState, setPopupContextState] = useState<PopupType>({
         isOpened: false,
-        renderKey: 1
     })
 
   return (

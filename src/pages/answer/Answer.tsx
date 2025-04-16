@@ -1,11 +1,11 @@
-import { Box, IconButton, Typography } from '@mui/material'
-import React, { useContext } from 'react'
+import { Typography } from '@mui/material'
+import  { useContext } from 'react'
 import BackIconButton from '../general/backIconButton/BackIconButton'
-import { QuestionContext } from '../../context/QuestionContextProvider'
+import { PastaContext } from '../../context/PastaContextProvider'
 
 const Answer = () => {
 
-  const {questionContextState, setQuestionContextState} = useContext(QuestionContext)!;
+  const {pastaContextState, setPastaContextState} = useContext(PastaContext)!;
 
   return (
     <div
@@ -25,7 +25,7 @@ const Answer = () => {
              fontWeight:"bold",
              textAlign:"center"
         }}>
-            {questionContextState.answer}
+            {pastaContextState.answer}
             </Typography>
     </div>
   )

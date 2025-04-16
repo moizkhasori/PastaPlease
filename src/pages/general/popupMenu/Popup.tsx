@@ -1,59 +1,136 @@
-import { Box, Button, Divider, SwipeableDrawer } from '@mui/material';
-import React, { useContext, useState } from 'react'
+import { Box, Button, Divider, IconButton, SwipeableDrawer, Typography } from '@mui/material';
+import  { useContext, useState } from 'react'
 import TextFieldPopup from './textFieldPopup/TextFieldPopup';
 import { PopupContext } from '../../../context/PopupContextProvider';
+import { PastaContext } from '../../../context/PastaContextProvider';
 import { themes } from '../../../themes/themes';
-import { QuestionContext } from '../../../context/QuestionContextProvider';
+import { PopupTempStateValues } from '../../../utility/interfaces';
+
 import RestoreIcon from '@mui/icons-material/Restore';
-import { ThemeContext } from '../../../context/ThemeContextProvider';
+import CloseIcon from '@mui/icons-material/Close';
+import DoneIcon from '@mui/icons-material/Done';
+
 
 const Popup = () => {
     
     const {popupContextState, setPopupContextState} = useContext(PopupContext)!;
-    const {questionContextState, setQuestionContextState} = useContext(QuestionContext)!;
-      const {themeContextState, setThemeContextState} = useContext(ThemeContext)!;
+    const {pastaContextState,setPastaContextState } = useContext(PastaContext)!;
+
+    const ButtonStyles = {
+      px:3,
+      py: 1,
+      borderRadius:"50px",
+      backgroundColor: pastaContextState.themeButtonColor,
+      color: "#FFFFFF",
+      "&:hover": {
+      backgroundColor: pastaContextState.themeButtonHoverColor,
+    }
+  }
+
+    const [popupTempState, setPopupTempState] = useState<PopupTempStateValues>({
+      question: pastaContextState.question,
+      answer: pastaContextState.answer,
+      yesButtonText: pastaContextState.yesButtonText,
+      noButtonText: pastaContextState.noButtonText,
+    })
     
 
-    
+    const handleSaveNewPastaState = () => {
 
-    const handleUpdateQuestionContextState = (themeNo: number) => {
-      setQuestionContextState({
-            question: themes[themeNo].question,
-            answer: themes[themeNo].answer,
-            yesBtnText: themes[themeNo].yesBtnText,
-            noBtnText: themes[themeNo].noBtnText,
-            themeNo: themeNo
+      try {
+
+        if(popupTempState.question.length < 5){
+          throw new Error("Question Length cant be shorter than 5 characters!")
+        } 
+        
+        if(popupTempState.answer.length < 5){
+          throw new Error("Answer Length cant be shorter than 5 characters!")
+        }
+        
+        if(popupTempState.yesButtonText.length < 3){
+          throw new Error("Yes Button Length cant be shorter than 3 characters!")
+        }
+
+        if(popupTempState.noButtonText.length < 2){
+          throw new Error("No Button Length cant be shorter than 2 characters!")
+        }
+
+        setPastaContextState((prev) => ({
+          ...prev,
+          question: popupTempState.question,
+          answer: popupTempState.answer,
+          yesButtonText: popupTempState.yesButtonText,
+          noButtonText: popupTempState.noButtonText,
+          themeModified: true
+        }))
+        setPopupContextState({
+          isOpened: false
+        })
+      } catch (error) {
+        alert((error as Error).message)
+      }
+      
+    }
+
+    const handleUpdateOpenPopupState = () => {      
+      setPopupContextState({
+        isOpened: true
       })
     }
 
-    const updatePopupState = (state:boolean) => (
-    
-      state == false ? (
-        setPopupContextState((prevState) => ({
-          renderKey: prevState.renderKey + 1,
-          isOpened: state,
-      }))
-      
-      ) : (
-        setPopupContextState({
-          ...popupContextState,
-          isOpened: state
+    const handleUpdateClosePopupState = () => {
+
+      setPopupTempState({
+        question: pastaContextState.question,
+        answer: pastaContextState.answer,
+        yesButtonText: pastaContextState.yesButtonText,
+        noButtonText: pastaContextState.noButtonText
       })
-      )     
-    )
+      setPopupContextState({
+        isOpened: false
+      })
+
+    }
+
+    const handleResetPastaState = () => {
+
+      const tNo = pastaContextState.themeValue;      
+
+      setPopupTempState({
+        question: themes[tNo].question,
+        answer: themes[tNo].answer,
+        yesButtonText: themes[tNo].yesButtonText,
+        noButtonText: themes[tNo].noButtonText
+      })
+
+      setPastaContextState((prev) => ({
+        ...prev,
+        question: themes[tNo].question,
+        answer: themes[tNo].answer,
+        yesButtonText: themes[tNo].yesButtonText,
+        noButtonText: themes[tNo].noButtonText,
+        themeModified: false
+      }))
+
+      setPopupContextState({
+        isOpened: false
+      })
+    }
+
+
   
     return(
       <SwipeableDrawer
       anchor="bottom"
       open={popupContextState.isOpened}
-      onOpen={() => (updatePopupState(true))}
-      onClose={() => (updatePopupState(false))}
+      onOpen={handleUpdateOpenPopupState}
+      onClose={handleUpdateClosePopupState}
       PaperProps={{
         sx: {
           borderTopLeftRadius: 16, // Adjust radius here
           borderTopRightRadius: 16, // Adjust radius here
           overflow: "hidden",      // Ensures no content spills out
-          bgcolor:themeContextState.backgroundColor
+          bgcolor:pastaContextState.themeBgColor
         },
       }}
       >
@@ -64,7 +141,29 @@ const Popup = () => {
         // onClick={toggleDrawer(anchor, false)}
         // onKeyDown={toggleDrawer(anchor, false)}
       >
-        <TextFieldPopup title="Question" btnLabel='question'/>
+
+        <Box sx={{
+            width:"100%",
+            display: "flex",
+            alignItems:"center",
+            justifyContent:"space-between"
+          }}
+          >
+          <Typography>Edit</Typography>
+
+          <Box
+          sx={{
+            display:"flex",
+            gap:2
+          }}
+          >
+            <Button onClick={handleResetPastaState} sx={ButtonStyles} endIcon={<RestoreIcon />}>Reset</Button>
+            <Button onClick={handleUpdateClosePopupState} sx={ButtonStyles} endIcon={<CloseIcon />}>Close</Button>
+          </Box>
+        </Box>
+
+
+        <TextFieldPopup popupTempState={popupTempState} setPopupTempState={setPopupTempState} title="Question" buttonLabel='question' length={50}/>
   
         <Box
         sx={{
@@ -73,12 +172,12 @@ const Popup = () => {
           gap:"4rem"
         }}
         >
-          <TextFieldPopup title="Yes Button" btnLabel='yesBtnText'/>
-          <TextFieldPopup title="No Button" btnLabel='noBtnText'/>
+          <TextFieldPopup popupTempState={popupTempState} setPopupTempState={setPopupTempState} title="Yes Button" buttonLabel='yesButtonText' length={15}/>
+          <TextFieldPopup popupTempState={popupTempState} setPopupTempState={setPopupTempState} title="No Button" buttonLabel='noButtonText' length={15}/>
         </Box>
   
         <Box>
-          <TextFieldPopup title="Answer" btnLabel='answer'/>
+          <TextFieldPopup popupTempState={popupTempState} setPopupTempState={setPopupTempState} title="Answer" buttonLabel='answer' length={50}/>
         </Box>
   
         <Divider/>
@@ -94,36 +193,22 @@ const Popup = () => {
 
         <Button
           sx={{
-            px:"7rem",
-            py: "2rem",
+            px:20,
+            py: 3,
             borderRadius:"50px",
-            backgroundColor: themeContextState.buttonColor, // Custom color
+            backgroundColor: pastaContextState.themeButtonColor, // Custom color
             color: "#FFFFFF", // Text color
             "&:hover": {
-            backgroundColor: themeContextState.buttonHoverColor, // Hover color
+            backgroundColor: pastaContextState.themeButtonHoverColor, // Hover color
           },
           }}
-          
-          onClick={() => {updatePopupState(false)}}
+          onClick={handleSaveNewPastaState}
           variant="contained"
-          >CLOSE
+          >
+            <Typography variant="button">Save</Typography>
           </Button>
 
-           <Button
-          sx={{
-            px:"7rem",
-            py: "2rem",
-            borderRadius:"50px",
-            backgroundColor: themeContextState.buttonColor, // Custom color
-            color: "#FFFFFF", // Text color
-            "&:hover": {
-            backgroundColor: themeContextState.buttonHoverColor, // Hover color
-            }
-          }}
-          onClick={() => {handleUpdateQuestionContextState(questionContextState.themeNo)}}
-          variant="contained"
-          >Reset
-          </Button>
+    
 
           
 
@@ -131,14 +216,18 @@ const Popup = () => {
         </Box>
 
         {/* theme */}
-        {/* <Box>
-          {themes.map((theme, index) => (
+        <Box>
+          <Typography variant='h3'>Themes</Typography>
+
+        <Box>
+          {[1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8,9].map((theme, index) => (
             <Button
-            onClick={() => {handleUpdateQuestionContextState(index)}}
+            // onClick={() => {handleUpdateQuestionContextState(index)}}
             variant='contained'
-            >{theme.question}</Button>
+            >{"i am ok okk"}</Button>
           ))}
-        </Box> */}
+        </Box>
+        </Box>
     
   
       </Box>

@@ -29,7 +29,6 @@ export interface TextFieldProps{
     text: string,    
 }
 
-export type ButtonLabel = "question" | "yesBtnText" | "noBtnText" | "answer";
 
 export interface QuestionAnswerType{
     question: string,
@@ -41,7 +40,6 @@ export interface QuestionAnswerType{
 
 export interface PopupType{
     isOpened: boolean,
-    renderKey: number
 }
 
 export interface ThemeType{
@@ -73,4 +71,18 @@ export interface ContextType{
 export interface ThemeContextType{
     themeContextState: ThemeType,
     setThemeContextState: React.Dispatch<React.SetStateAction<ThemeType>>
+}
+
+
+export interface PastaOptions{
+    question: string,
+    yesButtonText: string,
+    noButtonText: string,
+    answer: string,
+    themeValue: number,
+    themeModified?: boolean,
+    themeBgColor: string,
+    themeQuestionAnswerColor: string,
+    themeButtonColor:string,
+    themeButtonHoverColor: string
 }
